@@ -28,7 +28,7 @@ public class Main {
         //session.getTransaction().commit();
         
         Main main = new Main();
-        main.saveEmployee("TTTT", "Ñèí³é", 100000, 893965);
+        main.saveEmployee("TTTT", "Ã‘Ã¨Ã­Â³Ã©", 100000, 893965);
         //main.saveEmployee("Ravi", "Manager", 50000, 996654);
         //main.saveEmployee("Amit", "PM", 45000, 93445);
         //main.retriveEmployee();
@@ -102,6 +102,7 @@ public class Main {
             query.setInteger("phone", 893965);
             Employee employee = (Employee) query.uniqueResult();
             session.delete(employee);
+	    transaction.commit();
             System.out.println("Employee records deleted!");
  
         } catch (HibernateException e) {
@@ -129,6 +130,7 @@ public class Main {
             Employee employee = (Employee) query.uniqueResult();
             employee.setSal(60000);
             session.update(employee);
+	    transaction.commit();
             System.out.println("Employee records updated!");
         } catch (HibernateException e) {
  
