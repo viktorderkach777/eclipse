@@ -1,0 +1,367 @@
+package com.javawebtutor;
+
+import java.util.Date;
+
+import org.hibernate.Session;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+//import org.hibernate.Session;
+import org.hibernate.Transaction;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		session.beginTransaction();
+		// User user = new User();
+
+		// user.setUserId(109);
+//        user.setUsername("Viktor1");
+//        user.setCreatedBy("StepCompany1");
+//        user.setCreatedDate(new Date());
+// 
+		// session.save(user);
+		// session.getTransaction().commit();
+
+		Main main = new Main();
+		 /*main.saveEmployee("Henadiy", "Lviv", 100000, 893965);
+		 main.saveEmployee("Taras", "Odesa", 50000, 996654);
+		 main.saveEmployee("Vasil", "Harkiv", 45000, 93445);*/
+		main.retriveEmployee();
+		// main.deleteEmployee();
+		// main.updateEmployee();
+		//Scanner in = new Scanner(System.in);
+		
+		/*String name = GetString("Введіть ім'я користувача: ");		
+		int salary = GetNumber("Введіть зарплату користувача: ");		
+		String city = GetString("Введіть місто користувача: ");		
+		int phone = GetNumber("Введіть телефон користувача: ");
+		main.saveEmployee(name, city, salary, phone);*/
+		/*int n = GetOperation();
+		switch (n) {
+        case 0:
+        	System.out.println("Вихід");
+			break;
+		case 1:
+			main.saveEmployee();
+			break;
+		case 2:
+			main.retriveEmployee();
+			break;
+		case 3:
+			
+			break;
+		case 4:
+			
+			break;
+		default:
+			System.out.println("Вихід");
+		}*/
+		String parametr = "name";
+		String val = "Taras";
+		int value = 345678;
+		main.deleteEmployee(parametr, val);
+		//main.deleteEmployee();
+		
+		//main.saveEmployee();
+		//main.updateEmployee();
+		
+		
+	}
+	
+	
+	public static String GetParametr() {
+		int n = 0;
+		Scanner in = new Scanner(System.in);
+
+		do {
+			try {
+				System.out.println("Виберіть параметр: ");				
+				System.out.println("1 - name ");
+				System.out.println("2 - sal ");
+				System.out.println("3 - city ");
+				System.out.println("4 - phone ");				
+				String str = in.next();
+
+				n = Integer.parseInt(str);
+			} catch (NumberFormatException ex) {
+				System.out.println("Помилка перетворення строки в число");
+			} catch (Exception ex) {
+				System.out.printf("error input = %s\n", ex.getMessage());
+			}
+			
+		} while (n < 1 || n > 4);
+		String result;
+		switch (n) {
+
+		case 1:
+			result = "name";
+			break;
+		case 2:
+			result = "sal";
+			break;
+		case 3:
+			result = "city";
+			break;
+		case 4:
+			result = "phone";
+			break;
+		default:
+			result = "name";
+		}
+
+		return result;
+	}
+	
+	public static int GetOperation() {
+		int n = 0;
+		Scanner in = new Scanner(System.in);
+
+		do {
+			try {
+				System.out.println("Виберіть операцію: ");
+				System.out.println("0 - вихід ");
+				System.out.println("1 - додавання користувача ");
+				System.out.println("2 - вивести усіх користувачів ");
+				System.out.println("3 - видалення користувача по параметру ");
+				System.out.println("4 - пошук користувача по параметру ");
+				System.out.println("5 - редагування користувача по параметру ");
+				String str = in.next();
+
+				n = Integer.parseInt(str);
+			} catch (NumberFormatException ex) {
+				System.out.println("Помилка перетворення строки в число");
+			} catch (Exception ex) {
+				System.out.printf("error input = %s\n", ex.getMessage());
+			}
+			
+		} while (n < 0 || n > 5);
+
+		return n;
+	}
+	
+	public void saveEmployee() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		
+		String name = GetString("Введіть ім'я користувача: ");		
+		int sal = GetNumber("Введіть зарплату користувача: ");		
+		String city = GetString("Введіть місто користувача: ");		
+		int phone = GetNumber("Введіть телефон користувача: ");
+
+		try {
+			transaction = session.beginTransaction();
+			Employee employee = new Employee();
+			employee.setName(name);
+			employee.setSal(sal);
+			employee.setCity(city);
+			employee.setPhone(phone);
+			session.save(employee);
+			transaction.commit();
+			System.out.println("Records inserted sucessessfully");
+		} catch (HibernateException e) {
+			transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+	}
+
+	public void saveEmployee(String name, String city, int sal, int phone) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+
+		try {
+			transaction = session.beginTransaction();
+			Employee employee = new Employee();
+			employee.setName(name);
+			employee.setSal(sal);
+			employee.setCity(city);
+			employee.setPhone(phone);
+			session.save(employee);
+			transaction.commit();
+			System.out.println("Records inserted sucessessfully");
+		} catch (HibernateException e) {
+			transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+	}
+
+	public void retriveEmployee()
+
+	{
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			List employee = session.createQuery("from Employee").list();
+
+			for (Iterator iterator = employee.iterator(); iterator.hasNext();) {
+				Employee employee1 = (Employee) iterator.next();
+				System.out.println(employee1.getName() + "  " + employee1.getCity() + "  " + employee1.getSal() + "   "
+						+ employee1.getPhone());
+			}
+			transaction.commit();
+
+		} catch (HibernateException e) {
+
+			transaction.rollback();
+
+			e.printStackTrace();
+
+		} finally {
+
+			session.close();
+
+		}
+	}
+	
+	public void deleteEmployee(String parametr, int value) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			String queryString = "from Employee where " + parametr + " = :" + parametr;
+			Query query = session.createQuery(queryString);
+			query.setInteger(parametr, value);
+			
+			Employee employee = (Employee) query.uniqueResult();
+			session.delete(employee);
+			System.out.println("Employee records deleted!");
+
+		} catch (HibernateException e) {
+
+			transaction.rollback();
+
+			e.printStackTrace();
+
+		} finally {
+
+			session.close();
+
+		}
+	}
+	
+	public void deleteEmployee(String parametr, String value) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			String queryString = "from Employee where " + parametr + " = :" + parametr;
+			Query query = session.createQuery(queryString);
+			query.setString(parametr, value);
+			
+			Employee employee = (Employee) query.uniqueResult();
+			session.delete(employee);
+			System.out.println("Employee records deleted!");
+
+		} catch (HibernateException e) {
+
+			transaction.rollback();
+
+			e.printStackTrace();
+
+		} finally {
+
+			session.close();
+
+		}
+	}
+
+	public void deleteEmployee() {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			String queryString = "from Employee where phone = :phone";
+			Query query = session.createQuery(queryString);
+			query.setInteger("phone", 893965);
+			
+			Employee employee = (Employee) query.uniqueResult();
+			session.delete(employee);
+			System.out.println("Employee records deleted!");
+
+		} catch (HibernateException e) {
+
+			transaction.rollback();
+
+			e.printStackTrace();
+
+		} finally {
+
+			session.close();
+
+		}
+	}
+
+	public void updateEmployee() {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			String queryString = "from Employee where sal = :sal";
+			Query query = session.createQuery(queryString);
+			query.setInteger("sal", 50000);
+			Employee employee = (Employee) query.uniqueResult();
+			employee.setSal(60000);
+			session.update(employee);
+			System.out.println("Employee records updated!");
+		} catch (HibernateException e) {
+
+			transaction.rollback();
+
+			e.printStackTrace();
+
+		} finally {
+
+			session.close();
+
+		}
+	}
+	
+	public static String GetString(String string) {
+		Scanner in = new Scanner(System.in);
+		System.out.println(string);
+		String name = in.next();
+		return name;
+	}
+	
+	
+	public static int GetNumber(String string) {
+		int n = 0;
+		int checknumber = -1;
+		Scanner in = new Scanner(System.in);
+		do {
+			try {
+				 System.out.println(string);
+				String str = in.next();
+				n = Integer.parseInt(str);
+				checknumber = 1;
+			} catch (NumberFormatException ex) {
+				System.out.println("Помилка перетворення строки в число");
+				checknumber = -1;
+			} catch (Exception ex) {
+				System.out.printf("error input = %s\n", ex.getMessage());
+				checknumber = -1;
+			}
+		} while (checknumber == -1);
+		return n;
+	}
+
+}

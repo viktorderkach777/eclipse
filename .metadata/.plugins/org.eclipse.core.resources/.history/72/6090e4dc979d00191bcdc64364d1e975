@@ -1,0 +1,186 @@
+package table;
+import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Random;
+
+class Line{
+    
+	public String exp;
+	public int val;
+	public String answer;
+	//public boolean IsRight;
+	
+	Line(String _exp, int _val){
+		exp = _exp;
+		val = _val;
+	} 
+	
+	Line(String _exp, int _val, String _answer){
+		exp = _exp;
+		val = _val;
+		answer = _answer;		
+	} 
+}
+
+public class table {
+
+	public static void main(String[] args) {
+		Map<Integer, String> states = new HashMap<Integer, String>();
+	       states.put(1, "Germany");
+	       states.put(2, "Spain");
+	       states.put(4, "France");
+	       states.put(3, "Italy");
+	         
+	       // получим объект по ключу 2
+	       String first = states.get(2);
+	       System.out.println(first);
+	       // получим весь набор ключей
+	       Set<Integer> keys = states.keySet();
+	       // получить набор всех значений
+	       Collection<String> values = states.values();
+	       //заменить элемент
+	       states.replace(1, "Poland");
+	       // удаление элемента по ключу 2
+	       states.remove(2);
+	       // перебор элементов
+	       for(Map.Entry<Integer, String> item : states.entrySet()){
+	         
+	           System.out.printf("Key: %d  Value: %s \n", item.getKey(), item.getValue());
+	       }
+	       
+	       
+	       Map<String, Integer> tab = new HashMap<String, Integer>();
+	       tab.put("2 * 2", 4);
+	       tab.put("2 * 5", 10);
+	       tab.put("2 * 7", 14);
+	       tab.put("2 * 8", 16);
+	       tab.put("2 * 9", 18);
+	       tab.put("3 * 2", 6);
+	       tab.put("3 * 5", 15);
+	       tab.put("3 * 7", 21);
+	       tab.put("3 * 8", 24);
+	       tab.put("3 * 9", 27);
+	       tab.put("4 * 2", 8);
+	       tab.put("4 * 5", 20);
+	       tab.put("4 * 7", 28);
+	       tab.put("4 * 8", 32);
+	       tab.put("4 * 9", 36);
+	       tab.put("5 * 2", 10);
+	       tab.put("5 * 5", 25);
+	       tab.put("5 * 7", 35);
+	       tab.put("5 * 8", 40);
+	       tab.put("5 * 9", 45);
+	       tab.put("6 * 2", 12);
+	       tab.put("6 * 5", 30);
+	       tab.put("6 * 7", 42);
+	       tab.put("6 * 8", 48);
+	       tab.put("6 * 9", 54);
+	       
+	      
+	       ArrayList<Line> lines = new ArrayList<Line>();	       
+	        lines.add(new Line("2 * 2", 4));
+	        lines.add(new Line("2 * 5", 10));
+	        lines.add(new Line("2 * 7", 14));
+	        lines.add(new Line("2 * 8", 16));
+	        lines.add(new Line("2 * 9", 18));
+	        lines.add(new Line("3 * 2", 6));
+	        lines.add(new Line("3 * 5", 15));
+	        lines.add(new Line("3 * 7", 21));
+	        lines.add(new Line("3 * 8", 24));
+	        lines.add(new Line("3 * 9", 27));
+	        lines.add(new Line("4 * 2", 8));
+	        lines.add(new Line("4 * 5", 20));
+	        lines.add(new Line("4 * 7", 28));
+	        lines.add(new Line("4 * 8", 32));
+	        lines.add(new Line("4 * 9", 36));
+	        lines.add(new Line("5 * 2", 12));
+	        lines.add(new Line("5 * 5", 25));
+	        lines.add(new Line("5 * 7", 35));
+	        lines.add(new Line("5 * 8", 40));
+	        lines.add(new Line("5 * 9", 45));
+	        lines.add(new Line("6 * 2", 12));
+	        lines.add(new Line("6 * 5", 30));
+	        lines.add(new Line("6 * 7", 42));
+	        lines.add(new Line("6 * 8", 48));
+	        lines.add(new Line("6 * 9", 54));
+	        
+	        ArrayList<Line> errors = new ArrayList<Line>();
+	       /* for(int i = 0; i < lines.size(); i++) {
+	        	var temp = lines.get(i);
+	        	 System.out.printf("Key: %d  Value: %s \n", temp.val, temp.exp);
+	        }
+	        
+	        int r = randInt(15, 25);
+	        System.out.println(r);
+	        
+	        int idx = 2;*/
+	        
+	        Scanner in=new Scanner(System.in);
+	       /* System.out.println("Запишіть результат виразу: " + lines.get(idx).exp + " = ");*/
+	        /*String str=in.next();
+	        int n=Integer.parseInt(str); 
+	        //System.out.println("результат: " + n);
+	        
+	        if(lines.get(idx).val != n) {
+	        	 errors.add(new Line(lines.get(idx).exp, lines.get(idx).val, str));
+	        	 //System.out.printf("Key: %d   Your answer: %s\n", errors.get(0).val, errors.get(0).exp, errors.get(0).answer);
+	        	 System.out.printf(errors.get(0).answer + " is false! " + errors.get(0).exp + " = " + errors.get(0).val);
+	        }
+	        else {
+	        	 System.out.printf("True!");
+	        }*/
+	        
+	        int r = randInt(15, 25);
+	        System.out.println(r);
+	        
+	        
+	        for(int i = 0; i < r; i++) {
+	        	
+	        	 int ind = randInt(0, lines.size() + 1);
+	        	//var temp = lines.get(i);
+	        	 //System.out.printf("Key: %d  Value: %s \n", temp.val, temp.exp);
+	        	 
+	        	 System.out.println("Запишіть результат виразу: " + lines.get(ind).exp + " = ");
+	 	        String str=in.next();
+	 	        int n=Integer.parseInt(str); 
+	 	        //System.out.println("результат: " + n);
+	 	        
+	 	        if(lines.get(ind).val != n) {
+	 	        	 errors.add(new Line(lines.get(ind).exp, lines.get(ind).val, str));
+	 	        	 //System.out.printf("Key: %d   Your answer: %s\n", errors.get(0).val, errors.get(0).exp, errors.get(0).answer);
+	 	        	 int errind = errors.size() - 1;
+	 	        	 System.out.printf(errors.get(errind).answer + " is false! " + errors.get(errind).exp + " = " + errors.get(errind).val + "\n");
+	 	        }
+	 	        else {
+	 	        	 System.out.printf("True!\n");
+	 	        }
+	 	        
+	 	        lines.remove(ind);
+	        }
+	        
+	        
+	        for(int i = 0; i < lines.size(); i++) {
+	        	var temp = lines.get(i);
+	        	 System.out.printf("Key: %d  Value: %s \n", temp.val, temp.exp);
+	        }
+	       
+	        
+	        
+	        
+
+	}
+	
+public static int randInt(int min, int max) {
+
+	    
+	    Random rand = new Random();
+
+	    // nextInt is normally exclusive of the top value,
+	    // so add 1 to make it inclusive
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+	    return randomNum;
+	}
+
+}

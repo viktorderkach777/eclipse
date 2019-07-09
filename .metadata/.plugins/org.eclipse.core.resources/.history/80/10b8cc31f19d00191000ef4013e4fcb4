@@ -1,0 +1,279 @@
+package coffeMashine;
+
+import java.util.Scanner;
+
+public class coffeMashine {
+
+	public static void main(String[] args) {
+		
+		ProtoMashine proto = new ProtoMashine(1, 100, 2, 100, 3, 100, 1, 100, 0);
+		Human human = new Human("Petro", 100);		
+		double order = proto.OrderSum();
+		
+		if( human.Payment(order)) {
+			proto.GetOrder(order);
+			System.out.println("Дякуємо за замовлення!");
+		}
+		else {
+			System.out.println("Недостатньо коштів для замовлення!");
+		}
+		
+		
+	}
+	
+	
+	public static double GetIngredient(String condition, double min, double max ) {
+    	double n=0;
+    	int checknumber = -1;
+    	Scanner in=new Scanner(System.in);
+    	do {
+		try {
+			System.out.println(condition);
+			String str=in.next();
+			n=Double.parseDouble(str);		
+			
+			checknumber = 1;
+		}
+		catch(NumberFormatException ex)
+		{
+			System.out.println("Помилка перетворення строки в число");
+			checknumber = -1;
+		}
+		catch(Exception ex) {
+			System.out.printf("error input = %s\n",ex.getMessage());
+			checknumber = -1;
+		}
+		if(n <min || n>max) {
+			checknumber = -1;
+		}
+    	}while(checknumber == -1);
+    return n;
+    }
+	
+	public static int GetNumber() {
+    	int n=0;
+    	int checknumber = -1;
+    	Scanner in=new Scanner(System.in);
+    	do {
+		try {
+			System.out.println("Введіть число: ");
+			String str=in.next();
+			n=Integer.parseInt(str); 
+			checknumber = 1;
+		}
+		catch(NumberFormatException ex)
+		{
+			System.out.println("Помилка перетворення строки в число");
+			checknumber = -1;
+		}
+		catch(Exception ex) {
+			System.out.printf("error input = %s\n",ex.getMessage());
+			checknumber = -1;
+		}
+    	}while(checknumber == -1);
+    return n;
+    }
+	
+	public static int WhichDrink() {
+    	int n=0;
+    	Scanner in=new Scanner(System.in);
+    	
+    	do {
+    		try {
+    			System.out.println("Виберіть напій: ");
+    			System.out.println("1 - кава ");
+    			System.out.println("2 - капучино ");
+    			System.out.println("3 - американо ");
+    			System.out.println("4 - еспресссо ");
+    			String str=in.next();        			
+    			
+    			n=Integer.parseInt(str);
+    		}
+    		catch(NumberFormatException ex)
+    		{
+    			System.out.println("Помилка перетворення строки в число");
+    		}
+    		catch(Exception ex) {
+    			System.out.printf("error input = %s\n",ex.getMessage());
+    		}
+		}while(n <1 || n>4);
+		
+    return n;
+}	
+	
+	}
+	
+
+
+
+class ProtoMashine{	
+	static double minAmountCofee = 0;
+	static double maxAmountCofee = 10;
+	static double minAmountSugar = 0;
+	static double maxAmountSugar = 20;
+	static double minAmountMilk = 0;
+	static double maxAmountMilk = 30;
+	static double minAmountCognac = 0;
+	static double maxAmountCognac = 20;	
+	static double maxClientSum = 500;
+	static double minSum = 2;
+	
+	double sugarPrice;
+	double sugarAmount;
+	double cofeePrice;
+	double cofeeAmount;
+	double cognacPrice;
+	double cognacAmount;	
+	double milkPrice;
+	double milkAmount;	
+	double allMoney;	
+	
+	public ProtoMashine(double sugarPrice, double sugarAmount, double cofeePrice, double cofeeAmount,
+			double cognacPrice, double cognacAmount,  double milkPrice,
+			double milkAmount, double allMoney) {
+		
+		this.sugarPrice = sugarPrice;
+		this.sugarAmount = sugarAmount;
+		this.cofeePrice = cofeePrice;
+		this.cofeeAmount = cofeeAmount;
+		this.cognacPrice = cognacPrice;
+		this.cognacAmount = cognacAmount;		
+		this.milkPrice = milkPrice;
+		this.milkAmount = milkAmount;		
+		this.allMoney = allMoney;	
+		
+	}
+	
+	public  int GetMoney() {
+    	int n=0;
+    	int checknumber = -1;
+    	Scanner in=new Scanner(System.in);
+    	do {
+		try {
+			System.out.println("Введіть число: ");
+			String str=in.next();
+			n=Integer.parseInt(str); 
+			checknumber = 1;
+		}
+		catch(NumberFormatException ex)
+		{
+			System.out.println("Помилка перетворення строки в число");
+			checknumber = -1;
+		}
+		catch(Exception ex) {
+			System.out.printf("error input = %s\n",ex.getMessage());
+			checknumber = -1;
+		}
+    	}while(checknumber == -1);
+    return n;
+    }
+	
+	
+	public double OrderSum() {
+		double coffeeAmount =  GetIngredient("Введіть кількість кави (" + minAmountCofee +" - " + maxAmountCofee + " гр)", minAmountCofee , maxAmountCofee);
+		double milkAmount =  GetIngredient("Введіть кількість молока (" + minAmountMilk + " - " + maxAmountMilk + " гр)", minAmountMilk , maxAmountMilk);
+		double sugarAmount =  GetIngredient("Введіть кількість цукру (" + minAmountSugar + " - " + maxAmountSugar + " гр)", minAmountSugar , maxAmountSugar);
+		double cognacAmount =  GetIngredient("Введіть кількість коньяку (" + minAmountCognac + " - " + maxAmountCognac + " гр)", minAmountCognac , maxAmountCognac);
+		double sum = minSum + coffeeAmount * this.cofeePrice + milkAmount * this.milkPrice + 
+				+ sugarAmount * this.sugarPrice + cognacAmount * this.cognacPrice;
+		
+		System.out.println("Ціна замовлення: " + sum);		
+		return sum;
+				
+	}
+	
+	public double GetOrder(double sum) {
+		double clientSum = GetIngredient("Введіть гроші (" + sum +  " - " + maxClientSum +"$)", sum , maxClientSum);		
+		double clientChange = clientSum - sum;
+		System.out.println("Ваша здача: " + clientChange);
+		return sum;
+	}
+	
+	
+	public double GetIngredient(String condition, double min, double max ) {
+    	double n=0;
+    	int checknumber = -1;
+    	Scanner in=new Scanner(System.in);
+    	do {
+		try {
+			System.out.println(condition);
+			String str=in.next();
+			n=Double.parseDouble(str);		
+			
+			checknumber = 1;
+		}
+		catch(NumberFormatException ex)
+		{
+			System.out.println("Помилка перетворення строки в число");
+			checknumber = -1;
+		}
+		catch(Exception ex) {
+			System.out.printf("error input = %s\n",ex.getMessage());
+			checknumber = -1;
+		}
+		if(n <min || n>max) {
+			checknumber = -1;
+		}
+    	}while(checknumber == -1);
+    return n;
+    }
+}
+
+class Order{
+	String sum;
+	double sugarPrice;
+	double sugarAmount;
+	double cofeePrice;
+	double cofeeAmount;
+	double cognacPrice;
+	double cognacAmount;	
+	double milkPrice;
+	double milkAmount;
+	
+	public Order(String sum, double sugarPrice, double sugarAmount, double cofeePrice, double cofeeAmount,
+			double cognacPrice, double cognacAmount, double milkPrice, double milkAmount) {
+		
+		this.sum = sum;
+		this.sugarPrice = sugarPrice;
+		this.sugarAmount = sugarAmount;
+		this.cofeePrice = cofeePrice;
+		this.cofeeAmount = cofeeAmount;
+		this.cognacPrice = cognacPrice;
+		this.cognacAmount = cognacAmount;
+		this.milkPrice = milkPrice;
+		this.milkAmount = milkAmount;
+	}	
+	
+}
+
+class Human{	
+
+	String name;		
+	double money;
+	
+	public Human(String name, double money) {
+		super();
+		this.name = name;
+		this.money = money;
+	}
+	
+	public boolean Payment(double order) {
+		double startMoney = this.money;		
+		double finishMoney = this.money - order;
+		 
+		if(finishMoney < 0) {
+			return false; 
+		}
+		
+		this.money = finishMoney;
+		return true; 
+	}
+	
+	public double getMoney() {
+		return money;
+	}
+
+	public void setMoney(double money) {
+		this.money = money;
+	}
+}
